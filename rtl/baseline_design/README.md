@@ -14,6 +14,7 @@ Contents may include:
 * prototype MAC array connections
 * initial sequential designs
 * experimental RTL versions
+* and related testbenches
 
 These files are preserved for:
 
