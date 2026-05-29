@@ -6,6 +6,7 @@ Current implementation includes:
 
 * Sequential MAC unit
 * 2x2 MAC array
+* systolic movement in array
 * RTL simulation and verification
 * Waveform analysis
 
