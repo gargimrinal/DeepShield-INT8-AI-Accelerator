@@ -59,7 +59,7 @@ initial begin
 
 
     // cycle 1
-    #10;
+    #20;
 
     a_left[0] = 1;
     a_left[1] = 2;
@@ -69,7 +69,7 @@ initial begin
 
 
     // cycle 2
-    #10;
+    #20;
 
     a_left[0] = 5;
     a_left[1] = 6;
@@ -79,7 +79,7 @@ initial begin
 
 
     // cycle 3
-    #10;
+    #20;
 
     a_left[0] = -2;
     a_left[1] = 3;
