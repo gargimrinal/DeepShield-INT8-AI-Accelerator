@@ -32,22 +32,50 @@ module pe #(
 
     output logic signed [data_width-1:0] a_out, //goes to pe on right
     output logic signed [data_width-1:0] w_out, //goes to pe below
-    output logic signed [acc_width-1:0] psum_out //accumulated output
+    output logic signed [acc_width-1:0] psum_out, //accumulated output
+    output logic overflow
 );
 logic signed [data_width-1:0] a_reg;
 logic signed [data_width-1:0] w_reg;
 logic signed [acc_width-1:0] psum_reg;
+logic signed [acc_width:0] result;
+logic signed [acc_width-1:0] MAX_POS;
+logic signed [acc_width-1:0] MIN_NEG;
+
+assign result = psum_in + (a_in * w_in);
+assign MAX_POS = {1'b0,{(acc_width-1){1'b1}}};
+assign MIN_NEG = {1'b1,{(acc_width-1){1'b0}}};
 
 always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         a_reg    <= '0;
         w_reg    <= '0;
         psum_reg <= '0;
+        overflow <= 1'b0;
     end
 else if (en) begin
         a_reg <= a_in;
         w_reg <= w_in;
-        psum_reg <= psum_in + (a_in * w_in);
+ overflow <= (result[acc_width] != result[acc_width-1]);
+
+if(result > MAX_POS) begin
+
+    psum_reg <= MAX_POS;
+    overflow <= 1'b1;
+
+end
+else if(result < MIN_NEG) begin
+
+    psum_reg <= MIN_NEG;
+    overflow <= 1'b1;
+
+end
+else begin
+
+    psum_reg <= result[acc_width-1:0];
+    overflow <= 1'b0;
+
+end
     end
 end
 assign a_out    = a_reg;
