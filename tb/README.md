@@ -1,20 +1,22 @@
-This folder contains the testbench files used to verify the RTL modules of the INT8 AI Accelerator project.
+# Testbenches
 
-Current testbenches:
+This directory contains SystemVerilog testbenches used for functional verification.
 
-* MAC unit testbench
-* 2x2 MAC array testbench
+## Files
 
-The testbenches are used for:
+* `tb_pe.sv` – Processing Element verification.
+* `tb_pe_systolic_2x2.sv` – 2×2 systolic array verification.
+* `tb_pe_systolic_4x4.sv` – 4×4 systolic array verification.
+* `tb_fsm.sv` – FSM controller verification.
+* `tb_int8_accelerator.sv` – Top-level accelerator verification.
 
-* functional verification
-* applying input stimulus
-* checking output behavior
-* generating simulation waveforms
+## Verification Goals
 
-Future work:
+* MAC functionality
+* Data propagation
+* FSM state transitions
+* Overflow detection
+* Saturation behavior
+* Integrated accelerator operation
 
-* assertion-based verification
-* coverage collection
-* UVM environment
 
