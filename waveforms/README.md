@@ -1,16 +1,18 @@
-# Waveforms
+# Simulation Waveforms
 
-This folder contains simulation waveform screenshots and waveform dump files generated during RTL verification.
+This directory contains waveform captures from Vivado simulations.
 
-Waveforms are used to:
+## Included Results
 
-* verify signal behavior
-* debug RTL functionality
-* validate MAC operations
-* analyze timing and output correctness
+* Processing Element waveform
+* 2×2 systolic array waveform
+* 4×4 systolic array waveform
+* FSM controller waveform
+* Integrated accelerator waveform
+* baseline design waveforms
 
-Current waveforms include:
+## Purpose
 
-* MAC unit simulation
-* 2x2 MAC array simulation
+These waveforms demonstrate correct functionality of the RTL modules and validate system-level integration.
+
 
