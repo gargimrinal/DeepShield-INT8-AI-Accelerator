@@ -14,13 +14,11 @@ This folder contains the verification environment developed for the INT8 AI Acce
 ## Verification Methodology
 
 The verification flow follows a progressive approach:
-
-1. Directed Testbenches
-2. Self-Checking Testbenches
-3. Assertions (SVA)
-4. Functional Coverage
-5. SystemVerilog Verification Environment
-6. UVM-Based Verification
+. Self-Checking Testbenches
+. Assertions (SVA)
+. Functional Coverage
+. SystemVerilog Verification Environment
+. UVM-Based Verification
 
 ## Tools
 
