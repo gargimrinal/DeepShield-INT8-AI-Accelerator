@@ -109,14 +109,10 @@ end
 
 endtask
 
-int8_transaction tr;
-int8_scoreboard sb;
-int8_golden_model gm;
+int8_env env;
 
 initial begin
- tr = new();
- sb = new();
- gm = new();
+env = new();
 
 clk = 0;
 forever #5 clk = ~clk;
@@ -206,12 +202,14 @@ start = 1;
 start = 0;
 
 @(posedge done);
-gm.predict(
+env.mon.sample(done, y);
+
+env.gm.predict(
 a_left,
 w_top,
 expected
 );
-sb.check(
+env.sb.check(
 expected,
 y
 );
@@ -252,8 +250,21 @@ start = 1;
 
 #10;
 start = 0;
-
 @(posedge done);
+
+env.mon.sample(done, y);
+
+env.gm.predict(
+    a_left,
+    w_top,
+    expected
+);
+
+env.sb.check(
+    expected,
+    y
+);
+
 check_done();
 check_outputs_valid();
 
@@ -263,70 +274,61 @@ $display("TOP LEVEL SELF-CHECKING TB COMPLETED");
 $display("\n========== RANDOM TESTING ==========");
 
 repeat (20) begin
-assert(tr.randomize())
-else
-    $fatal("Transaction Randomization Failed");
 
-// Drive randomized inputs
-for (int i = 0; i < ROWS; i++)
-    a_left[i] = tr.a_left[i];
+    assert(env.tr.randomize())
+    else
+        $fatal("Transaction Randomization Failed");
 
-for (int j = 0; j < COLS; j++)
-    w_top[j] = tr.w_top[j];
+    // Drive randomized inputs
+    for (int i = 0; i < ROWS; i++)
+        a_left[i] = env.tr.a_left[i];
 
-tr.display();
+    for (int j = 0; j < COLS; j++)
+        w_top[j] = env.tr.w_top[j];
 
-start = 1;
-#10;
-start = 0;
+    env.tr.display();
 
-@(posedge done);
-gm.predict(
-a_left,
-w_top,
-expected
-);
+    start = 1;
+    #10;
+    start = 0;
 
-sb.check(
-expected,
-y
-);
+    @(posedge done);
 
-$display("Output Matrix:");
+    env.mon.sample(done, y);
 
-for (int i = 0; i < ROWS; i++) begin
-for (int j = 0; j < COLS; j++)
-$write("%8d ", y[i][j]);
-$display("");
+    env.gm.predict(
+        a_left,
+        w_top,
+        expected
+    );
+
+    env.sb.check(
+        expected,
+        y
+    );
+
+    $display("Output Matrix:");
+
+    for (int i = 0; i < ROWS; i++) begin
+        for (int j = 0; j < COLS; j++)
+            $write("%8d ", y[i][j]);
+        $display("");
+    end
+
+    check_done();
+    check_outputs_valid();
+
+    #20;
+
 end
 
-check_done();
-check_outputs_valid();
-
-#20;
-end
-
-$display("\n========== RANDOM TESTING COMPLETE ==========");
 $display("\n========== SCOREBOARD SUMMARY ==========");
-$display("PASS = %0d", sb.pass_count);
-$display("FAIL = %0d", sb.fail_count);
+$display("PASS = %0d", env.sb.pass_count);
+$display("FAIL = %0d", env.sb.fail_count);
 $display("========================================");
 
 $finish;
 
-end
-
-initial begin
-$monitor(
-    "T=%0t start=%0b done=%0b y00=%0d y01=%0d y10=%0d y11=%0d",
-    $time,
-    start,
-    done,
-    y[0][0],
-    y[0][1],
-    y[1][0],
-    y[1][1]
-);
 end
 
 endmodule
