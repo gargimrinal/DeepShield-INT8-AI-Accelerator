@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 21.06.2026 15:01:28
+// Create Date: 21.06.2026 15:29:10
 // Design Name: 
-// Module Name: int8_pkg
+// Module Name: int8_sequencer
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -18,13 +18,20 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-package int8_pkg;
+`ifndef INT8_SEQUENCER_SV
+`define INT8_SEQUENCER_SV
 
-    import uvm_pkg::*;
-    `include "uvm_macros.svh"
-    `include "int8_seq_item.sv"
-    `include "int8_sequencer.sv"
-    `include "int8_driver.sv"
-    `include "int8_sequence.sv"
+class int8_sequencer extends uvm_sequencer #(int8_seq_item);
 
-endpackage
+    `uvm_component_utils(int8_sequencer)
+
+    function new(string name = "int8_sequencer",
+                 uvm_component parent = null);
+
+        super.new(name, parent);
+
+    endfunction
+
+endclass
+
+`endif
