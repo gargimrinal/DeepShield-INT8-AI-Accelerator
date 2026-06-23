@@ -23,8 +23,13 @@ package int8_pkg;
     import uvm_pkg::*;
     `include "uvm_macros.svh"
     `include "int8_seq_item.sv"
-    `include "int8_sequencer.sv"
-    `include "int8_driver.sv"
     `include "int8_sequence.sv"
+   `include "int8_sequencer.sv"
+    `include "int8_driver.sv"
+   `include "int8_monitor_.sv"
+   `include "int8_agent.sv"
+   `include "int8_enviro.sv"
+   `include "int8_test.sv"
+    
 
 endpackage

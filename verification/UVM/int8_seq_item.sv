@@ -16,7 +16,10 @@
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+// //////////////////////////////
+`ifndef INT8_SEQ_ITEM_SV
+`define INT8_SEQ_ITEM_SV
+
 class int8_seq_item extends uvm_sequence_item;
 
     localparam DATA_WIDTH = 8;
@@ -27,10 +30,8 @@ class int8_seq_item extends uvm_sequence_item;
     rand logic signed [DATA_WIDTH-1:0] w_top  [COLS];
 
     `uvm_object_utils_begin(int8_seq_item)
-
         `uvm_field_sarray_int(a_left, UVM_ALL_ON)
-        `uvm_field_sarray_int(w_top , UVM_ALL_ON)
-
+        `uvm_field_sarray_int(w_top,  UVM_ALL_ON)
     `uvm_object_utils_end
 
     function new(string name = "int8_seq_item");
@@ -38,3 +39,5 @@ class int8_seq_item extends uvm_sequence_item;
     endfunction
 
 endclass
+
+`endif

@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 21.06.2026 15:35:03
+// Create Date: 23.06.2026 11:08:15
 // Design Name: 
-// Module Name: int8_driver
+// Module Name: int8_monitor_
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -18,56 +18,48 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`ifndef INT8_DRIVER_SV
-`define INT8_DRIVER_SV
+`ifndef INT8_MONITOR_SV
+`define INT8_MONITOR_SV
 
-class int8_driver extends uvm_driver #(int8_seq_item);
+class int8_monitor extends uvm_monitor;
 
-    `uvm_component_utils(int8_driver)
+    `uvm_component_utils(int8_monitor)
 
-    // Virtual interface
     virtual int8_if vif;
 
-    // Constructor
-    function new(string name = "int8_driver",
+    uvm_analysis_port #(int8_seq_item) ap;
+
+    function new(string name = "int8_monitor",
                  uvm_component parent = null);
-
         super.new(name, parent);
-
+        ap = new("ap", this);
     endfunction
 
-    // Build Phase
     function void build_phase(uvm_phase phase);
-
         super.build_phase(phase);
 
         if(!uvm_config_db #(virtual int8_if)::get(this,
                                                   "",
                                                   "vif",
                                                   vif))
-        begin
-            `uvm_fatal("NOVIF",
-                       "Virtual Interface not found")
-        end
-
+            `uvm_fatal("NOVIF","Virtual Interface not found");
     endfunction
 
-    // Run Phase
-   task run_phase(uvm_phase phase);
+    task run_phase(uvm_phase phase);
 
-    forever begin
+        int8_seq_item tr;
 
-        seq_item_port.get_next_item(req);
+        forever begin
+            @(posedge vif.clk);
 
-        `uvm_info("DRIVER",
-                  "Transaction Received",
-                  UVM_MEDIUM)
+            tr = int8_seq_item::type_id::create("tr");
 
-        seq_item_port.item_done();
+            // We'll fill this in later.
 
-    end
+            ap.write(tr);
+        end
 
-endtask
+    endtask
 
 endclass
 

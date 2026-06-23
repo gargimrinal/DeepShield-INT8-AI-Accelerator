@@ -18,6 +18,9 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`ifndef INT8_SEQUENCE_SV
+`define INT8_SEQUENCE_SV
+
 class int8_sequence extends uvm_sequence #(int8_seq_item);
 
     `uvm_object_utils(int8_sequence)
@@ -45,3 +48,5 @@ class int8_sequence extends uvm_sequence #(int8_seq_item);
     endtask
 
 endclass
+
+`endif
