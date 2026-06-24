@@ -26,15 +26,31 @@ class int8_test extends uvm_test;
 
     int8_enviro env;
 
-    function new(string name = "int8_test", uvm_component parent = null);
+    function new(string name="int8_test",
+                 uvm_component parent=null);
         super.new(name,parent);
     endfunction
-
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
 
         env = int8_enviro::type_id::create("env", this);
     endfunction
+//run phase generation
+    task run_phase(uvm_phase phase);
+
+        int8_sequence seq;
+
+        phase.raise_objection(this);
+
+        seq = int8_sequence::type_id::create("seq");
+
+        seq.start(env.agent.seqr);
+
+        #100;
+
+        phase.drop_objection(this);
+
+    endtask
 
 endclass
 `endif
