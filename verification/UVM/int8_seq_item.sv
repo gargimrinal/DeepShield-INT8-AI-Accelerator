@@ -28,7 +28,7 @@ class int8_seq_item extends uvm_sequence_item;
 
     rand logic signed [DATA_WIDTH-1:0] a_left [ROWS];
     rand logic signed [DATA_WIDTH-1:0] w_top  [COLS];
-
+logic signed [19:0] y [ROWS][COLS];
     `uvm_object_utils_begin(int8_seq_item)
         `uvm_field_sarray_int(a_left, UVM_ALL_ON)
         `uvm_field_sarray_int(w_top,  UVM_ALL_ON)

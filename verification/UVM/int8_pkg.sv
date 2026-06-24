@@ -28,8 +28,10 @@ package int8_pkg;
     `include "int8_driver.sv"
    `include "int8_monitor_.sv"
    `include "int8_agent.sv"
+    `include "int8_scoreboard_.sv"
    `include "int8_enviro.sv"
    `include "int8_test.sv"
+  
     
 
 endpackage

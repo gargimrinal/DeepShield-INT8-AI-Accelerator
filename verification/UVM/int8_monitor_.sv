@@ -48,19 +48,33 @@ class int8_monitor extends uvm_monitor;
     task run_phase(uvm_phase phase);
 
         int8_seq_item tr;
+forever begin
 
-        forever begin
-            @(posedge vif.clk);
+    // Wait until a transaction starts
+    @(posedge vif.start);
 
-            tr = int8_seq_item::type_id::create("tr");
+    tr = int8_seq_item::type_id::create("tr");
 
-            // We'll fill this in later.
+    // Capture inputs
+    for(int i=0;i<4;i++)
+        tr.a_left[i] = vif.a_left[i];
 
-            ap.write(tr);
-        end
+    for(int j=0;j<4;j++)
+        tr.w_top[j] = vif.w_top[j];
 
-    endtask
+    // Wait until DUT finishes
+    @(posedge vif.done);
+for (int i = 0; i < 4; i++) begin
+    for (int j = 0; j < 4; j++) begin
+        tr.y[i][j] = vif.y[i][j];
+    end
+end
 
+`uvm_info("MONITOR","Transaction Captured",UVM_MEDIUM)
+
+ap.write(tr);
+end
+endtask
 endclass
 
 `endif
