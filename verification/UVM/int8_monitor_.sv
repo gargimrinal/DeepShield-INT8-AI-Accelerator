@@ -71,7 +71,8 @@ for (int i = 0; i < 4; i++) begin
 end
 
 `uvm_info("MONITOR","Transaction Captured",UVM_MEDIUM)
-
+foreach(tr.y[i,j])
+    tr.y[i][j] = vif.y[i][j];
 ap.write(tr);
 end
 endtask

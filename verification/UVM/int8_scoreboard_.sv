@@ -1,21 +1,4 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:
-// Design Name:
-// Module Name: int8_scoreboard
-// Project Name:
-// Target Devices:
-// Tool Versions:
-// Description:
-// Basic scoreboard for the INT8 Accelerator.
-// Receives transactions from the monitor.
-// Comparison logic will be added later.
-//
-//////////////////////////////////////////////////////////////////////////////////
-
+`timescale 1ns/1ps
 `ifndef INT8_SCOREBOARD_SV
 `define INT8_SCOREBOARD_SV
 
@@ -23,43 +6,53 @@ class int8_scoreboard extends uvm_scoreboard;
 
     `uvm_component_utils(int8_scoreboard)
 
-    // Receives transactions from the monitor
-    uvm_analysis_imp #(int8_seq_item, int8_scoreboard) analysis_export;
+    localparam DATA_WIDTH = 8;
+    localparam ACC_WIDTH  = 20;
+    localparam ROWS = 4;
+    localparam COLS = 4;
 
-    //---------------------------------------------------------
-    // Constructor
-    //---------------------------------------------------------
-    function new(string name = "int8_scoreboard",
-                 uvm_component parent = null);
+    uvm_analysis_imp #(int8_seq_item,int8_scoreboard) analysis_export;
 
-        super.new(name, parent);
+    int8_golden_model golden;
+int unsigned txn_id = 0;
+    function new(string name="int8_scoreboard",
+                 uvm_component parent=null);
 
-        analysis_export = new("analysis_export", this);
+        super.new(name,parent);
 
-    endfunction
+        analysis_export = new("analysis_export",this);
 
-    //---------------------------------------------------------
-    // Called whenever monitor sends a transaction
-    //---------------------------------------------------------
-    function void write(int8_seq_item tr);
-
-        `uvm_info("SCOREBOARD",
-                  "Transaction received from monitor",
-                  UVM_MEDIUM)
-
-        // Display captured inputs
-        `uvm_info("SCOREBOARD",
-                  $sformatf("A = %p", tr.a_left),
-                  UVM_LOW)
-
-        `uvm_info("SCOREBOARD",
-                  $sformatf("W = %p", tr.w_top),
-                  UVM_LOW)
-
-        // Output comparison will be added later
+        golden = new();
 
     endfunction
+function void write(int8_seq_item tr);
+txn_id++;
+    golden.predict(tr);
 
+    foreach(tr.expected[i,j]) begin
+
+        if(tr.expected[i][j] == tr.y[i][j])
+
+            `uvm_info("COMPARE",
+            $sformatf(
+            "TXN=%0d OUT[%0d][%0d] PASS Exp=%0d Act=%0d"
+            txn_id,
+i,j,
+tr.expected[i][j],
+tr.y[i][j])
+
+        else
+
+            `uvm_error("COMPARE",
+            $sformatf(
+            "FAIL [%0d][%0d] Exp=%0d Act=%0d",
+            i,j,
+            tr.expected[i][j],
+            tr.y[i][j]))
+
+    end
+
+endfunction
 endclass
 
 `endif

@@ -22,13 +22,17 @@
 
 class int8_seq_item extends uvm_sequence_item;
 
-    localparam DATA_WIDTH = 8;
-    localparam ROWS = 4;
-    localparam COLS = 4;
+   localparam DATA_WIDTH = 8;
+localparam ACC_WIDTH  = 20;
+localparam ROWS = 4;
+localparam COLS = 4;
 
-    rand logic signed [DATA_WIDTH-1:0] a_left [ROWS];
-    rand logic signed [DATA_WIDTH-1:0] w_top  [COLS];
-logic signed [19:0] y [ROWS][COLS];
+   rand logic signed [DATA_WIDTH-1:0] a_left [0:ROWS-1];
+rand logic signed [DATA_WIDTH-1:0] w_top  [0:COLS-1];
+
+logic signed [ACC_WIDTH-1:0] y        [0:ROWS-1][0:COLS-1];
+logic signed [ACC_WIDTH-1:0] expected [0:ROWS-1][0:COLS-1];
+
     `uvm_object_utils_begin(int8_seq_item)
         `uvm_field_sarray_int(a_left, UVM_ALL_ON)
         `uvm_field_sarray_int(w_top,  UVM_ALL_ON)
