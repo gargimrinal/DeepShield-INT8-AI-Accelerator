@@ -10,13 +10,4 @@ This directory contains SystemVerilog testbenches used for functional verificati
 * `tb_fsm.sv` – FSM controller verification.
 * `tb_int8_accelerator.sv` – Top-level accelerator verification.
 
-## Verification Goals
-
-* MAC functionality
-* Data propagation
-* FSM state transitions
-* Overflow detection
-* Saturation behavior
-* Integrated accelerator operation
-
 
