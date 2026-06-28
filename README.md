@@ -141,4 +141,4 @@ The project was verified using:
 * Xilinx Vivado 2025.2 (XSim)
 
 
-✔ Ready for GitHub Portfolio
+
