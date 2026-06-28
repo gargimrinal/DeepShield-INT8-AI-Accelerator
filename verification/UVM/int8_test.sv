@@ -36,21 +36,19 @@ class int8_test extends uvm_test;
         env = int8_enviro::type_id::create("env", this);
     endfunction
 //run phase generation
-    task run_phase(uvm_phase phase);
+  task run_phase(uvm_phase phase);
 
-        int8_sequence seq;
+    int8_regression_sequence seq;
 
-        phase.raise_objection(this);
+    phase.raise_objection(this);
 
-        seq = int8_sequence::type_id::create("seq");
+    seq = int8_regression_sequence::type_id::create("seq");
 
-        seq.start(env.agent.seqr);
+    seq.start(env.agent.seqr);
 
-        #100;
+    phase.drop_objection(this);
 
-        phase.drop_objection(this);
-
-    endtask
+endtask
 
 endclass
 `endif

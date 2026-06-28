@@ -21,11 +21,11 @@
 `ifndef INT8_ENVIRO_SV
 `define INT8_ENVIRO_SV
 class int8_enviro extends uvm_env;
-
     `uvm_component_utils(int8_enviro)
 
     int8_agent agent;
     int8_scoreboard sb;
+    int8_coverage cov;
 
     function new(string name="int8_enviro",
                  uvm_component parent=null);
@@ -40,12 +40,16 @@ class int8_enviro extends uvm_env;
 
         agent = int8_agent::type_id::create("agent", this);
 sb = int8_scoreboard::type_id::create("sb", this);
+cov = int8_coverage::type_id::create("cov", this);
     endfunction
 
 function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
 
+    $display("CONNECT PHASE CALLED");
+
     agent.mon.ap.connect(sb.analysis_export);
+    agent.mon.ap.connect(cov.analysis_export);
 
 endfunction
 endclass

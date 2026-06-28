@@ -31,25 +31,34 @@ txn_id++;
 
     foreach(tr.expected[i,j]) begin
 
-        if(tr.expected[i][j] == tr.y[i][j])
+       if(tr.expected[i][j] == tr.y[i][j])
 
-            `uvm_info("COMPARE",
-            $sformatf(
-            "TXN=%0d OUT[%0d][%0d] PASS Exp=%0d Act=%0d"
+    `uvm_info(
+        "COMPARE",
+        $sformatf(
+            "TXN=%0d OUT[%0d][%0d] PASS Exp=%0d Act=%0d",
             txn_id,
-i,j,
-tr.expected[i][j],
-tr.y[i][j])
-
-        else
-
-            `uvm_error("COMPARE",
-            $sformatf(
-            "FAIL [%0d][%0d] Exp=%0d Act=%0d",
-            i,j,
+            i,
+            j,
             tr.expected[i][j],
-            tr.y[i][j]))
+            tr.y[i][j]
+        ),
+        UVM_LOW
+    )
 
+else
+
+    `uvm_error(
+        "COMPARE",
+        $sformatf(
+            "TXN=%0d OUT[%0d][%0d] FAIL Exp=%0d Act=%0d",
+            txn_id,
+            i,
+            j,
+            tr.expected[i][j],
+            tr.y[i][j]
+        )
+    )
     end
 
 endfunction
