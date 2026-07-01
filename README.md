@@ -1,4 +1,4 @@
-# INT8 AI Accelerator with UVM Verification
+# INT8 Systolic Mac Array Accelerator with UVM Verification
 
 A parameterized SystemVerilog implementation of an INT8 AI Accelerator based on a 4×4 systolic array architecture, accompanied by a complete UVM verification environment featuring a reference model, scoreboard, functional coverage, and regression testing.
 
