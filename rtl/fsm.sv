@@ -38,14 +38,23 @@ typedef enum logic [1:0] {
 
 state_t state;
 state_t next_state;
-
+logic [2:0] compute_count;
 //current state logic
-    always_ff @(posedge clk or negedge rst_n) begin
+  always_ff @(posedge clk or negedge rst_n) begin
 
-    if(!rst_n)
+    if(!rst_n) begin
         state <= IDLE;
-    else
+        compute_count <= 0;
+    end
+    else begin
         state <= next_state;
+
+        if(state == COMPUTE)
+            compute_count <= compute_count + 1;
+        else
+            compute_count <= 0;
+
+    end
 
 end
 
@@ -63,8 +72,11 @@ always_comb begin
         LOAD:
             next_state = COMPUTE;
 
-        COMPUTE:
-            next_state = DONE;
+       COMPUTE:
+    if(compute_count == 5)
+        next_state = DONE;
+    else
+        next_state = COMPUTE;
 
         DONE:
             next_state = IDLE;
